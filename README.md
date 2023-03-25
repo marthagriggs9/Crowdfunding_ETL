@@ -54,7 +54,24 @@ You will work with a partner to practice building an ETL pipeline using Python, 
    * Split each 'name' column value intoa first and last name and place each in a new column
    * Clean and export the DataFrame as `contacts.csv` and save it to your GitHub repository
    
-3. 
+3. If you chose Option 2, complete the following steps:
+   * Import the `contacts.xlsx` file into a DataFrame
+   * Extract the 'contact_id', 'name' and 'email' columns by using regular expressions
+   * Create a new DataFrame with the extracted data
+   * Convert the 'contact_id' column to the integer type
+   * Split each 'name' column value into a first and a last name and place each in a new column
+   * Clean and then export the DataFrame as `contacts.csv` and save it to your GitHub repository
+
+## Create Crowdfunding Database
+
+1. Inspect the four CSV files and then sketch an ERD of the tables
+2. Use the information from the ERD to create a table schema for each CSV file
+3. Save the database schema as a Postgres file named `crowdfunding_db_schema.sql` and save it to your GitHub repository
+4. Create a new Postgres database, named `crowdfunding_db`
+5. Using the database schema, create the tables in the correct order to handle the foreign keys
+6. Verify the table creation by running a `SELECT` statement for each table
+7. Import each CSV file into its corresponding SQL table
+8. Verify that each table has the correct data by running a `SELECT` statement for each
    
    
    
