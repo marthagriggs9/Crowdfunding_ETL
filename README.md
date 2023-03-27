@@ -131,22 +131,101 @@ subcategory_df.to_csv("Resources/subcategory.csv", index=False)
 
 ## Create the Campaign DataFrame
 1. Extract and transform the `crowdfunding.xlsx` Excel data to create a campaign DataFrame that has the following columns:
+```ruby
+# Create a copy of the crowdfunding_info_df DataFrame name campaign_df. 
+campaign_df = crowdfunding_info_df.copy()
+campaign_df.head()
+```
+
+![image](https://user-images.githubusercontent.com/115905663/228083920-cd6b050a-60f9-476c-8519-648c1838edfe.png)
+
    * cf_id column
-   * contact_id column
-   * company_name column
-   * blurb column, renamed 'description'
-   * goal column, converted to the `float` data type
-   * pledged column, converted to the `float` data type
-   * outcome column
-   * backers_count
-   * country column
-   * currency column
-   * launched_at column, renamed 'launch_date' and with UTC times converted to `datetime` format
-   * deadline column, renamed 'end_date' and with UTC times converted to `datetime` format
-   * category_id column, with unique identification numbers matching those in the 'category_id' column of the category DataFrame
-   * subcategory_id column, with unique identification numbers matching those in the 'subcategory_id' column of the subcategory DataFrame
    
+   * contact_id column
+   
+   * company_name column
+   
+   * blurb column, renamed 'description'
+   
+   * goal column, converted to the `float` data type
+  
+   * pledged column, converted to the `float` data type
+   
+   * outcome column
+   
+   * backers_count
+   
+   * country column
+   
+   * currency column
+   
+   * launched_at column, renamed 'launch_date' and with UTC times converted to `datetime` format
+   
+   * deadline column, renamed 'end_date' and with UTC times converted to `datetime` format
+   
+   * category_id column, with unique identification numbers matching those in the 'category_id' column of the category DataFrame
+   
+   * subcategory_id column, with unique identification numbers matching those in the 'subcategory_id' column of the subcategory DataFrame
+```ruby
+# Rename the blurb, launched_at, and deadline columns.
+campaign_df.rename(columns= {'blurb': 'description', 
+                             'launched_at': 'launch_date', 
+                             'deadline': 'end_date'}, inplace= True)
+
+campaign_df.head()
+```
+![image](https://user-images.githubusercontent.com/115905663/228083998-b26cc27a-2dd6-4431-822e-e3c9cab39b4e.png)
+
+```ruby
+# Convert the goal and pledged columns to a `float` data type.
+campaign_df['goal'] = campaign_df['goal'].astype(float)
+campaign_df['pledged'] = campaign_df['pledged'].astype(float)
+campaign_df.head()
+```
+![image](https://user-images.githubusercontent.com/115905663/228084132-6610ac9e-5c98-4f58-b6d2-dfc15a21cc8e.png)
+
+```ruby
+# Check the datatypes
+campaign_df.dtypes
+```
+![image](https://user-images.githubusercontent.com/115905663/228084217-9910f106-94b3-466a-bd6c-8ee53e70d5fb.png)
+
+```ruby
+# Format the launched_date and end_date columns to datetime format
+from datetime import datetime as dt
+
+campaign_df['launch_date'] = pd.to_datetime(campaign_df['launch_date'], unit='s').dt.strftime('%Y-%m-%d')
+
+campaign_df['end_date'] = pd.to_datetime(campaign_df['end_date'], unit='s').dt.strftime('%Y-%m-%d')
+
+campaign_df.head()
+```
+![image](https://user-images.githubusercontent.com/115905663/228084325-5ff38c7f-9136-4fb9-b704-f10ec4f33008.png)
+
+```ruby
+first_merge = campaign_df.merge(category_df, on='category', how='left')
+first_merge.head()
+```
+```ruby
+# Merge the campaign_df with the category_df on the "category" column and 
+# the subcategory_df on the "subcategory" column.
+campaign_merged_df = first_merge.merge(subcategory_df, on = 'subcategory', how='left')
+
+campaign_merged_df.tail(10)
+```
+```ruby
+# Drop unwanted columns
+campaign_cleaned = campaign_merged_df.drop(['staff_pick', 'spotlight', 'category & sub-category', 'category', 'subcategory'], axis = 1)
+campaign_cleaned.head()
+```
+
+![Screenshot 2023-03-27 175306](https://user-images.githubusercontent.com/115905663/228084712-e25d1710-50d6-43c4-9d13-65695e4e8a5a.png)
+
 2. Export the campaign DataFrame as `campaign.csv` and save it to your GitHub repository.
+```ruby
+# Export the DataFrame as a CSV file. 
+campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
+```
 
 ## Create the Contacts DataFrame
 1. Choose one of the following two options for extracting and transforming the data from `contacts.xlsx` Excel data:
