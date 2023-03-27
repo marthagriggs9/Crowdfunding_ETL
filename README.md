@@ -231,17 +231,95 @@ campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
 1. Choose one of the following two options for extracting and transforming the data from `contacts.xlsx` Excel data:
    * Option 1: Use Python dictionary methods
    * Option 2: Use regular expressions
-   
+
 2. If you choose Option 1, complete the following steps:
+   
    * Import the `contacts.xlsx` file into a DataFrame
+   ```ruby
+   # Read the data into a Pandas DataFrame. Use the `header=2` parameter when reading in the data.
+   contact_info_df = pd.read_excel('Resources/contacts.xlsx', header=2, engine= "openpyxl")
+   contact_info_df.head()
+   ```
+
+   ![image](https://user-images.githubusercontent.com/115905663/228085129-a8e8f062-ac3d-474a-a32a-a00d216980ab.png)
+   
    * Iterate through the DataFrame, converting each row to a dictionary
+   ```ruby 
+   import json
+   # Iterate through the contact_info_df and convert each row to a dictionary.
+   # create two lists one for the keys and one for the values
+   dict_values = []
+   column_names = []
+   ```
+   
    * Iterate through each dictionary, doing the following:
      * Extract the dictionary values from the keys by using a Python list comprehension
      * Add the values for each row to a new list
-     
+   ```ruby
+   # Iterate through the contact_info_df and convert each row to a dictionary.
+   # create two lists one for the keys and one for the values
+   dict_values = []
+   column_names = []
+   #Iterate through the DataFrame
+   for i, row in contact_info_df.iterrows():
+       data = row[0]
+       #Convert each row to a Python dictionary
+       converted_data = json.loads(data)
+       #Use a list comprehension to get the keys from the converted data
+       columns = [k for k, v in converted_data.items()]
+       #Use a list comprehension to get the values for each row
+       row_values = [v for k, v in converted_data.items()]
+       #Append the keys and list values to the lists created in step 1
+       column_names.append(columns)
+       dict_values.append(row_values)
+   # Print out the keys and list of values for each row
+   print(column_names[0])
+   print()
+   print(dict_values)
+   ```
    * Create a new DataFrame that contains the extracted data
+   ```ruby
+   # Create a contact_info DataFrame and add each list of values, i.e., each row 
+   # to the 'contact_id', 'name', 'email' columns.
+   contact_info = pd.DataFrame(dict_values, columns=column_names[0])
+   contact_info.head()
+   ```
+   
+   ![image](https://user-images.githubusercontent.com/115905663/228086073-c12dda88-55fd-40f5-bf08-9bc74587547e.png)
+
    * Split each 'name' column value intoa first and last name and place each in a new column
+   ```ruby
+   # Create a "first"name" and "last_name" column with the first and last names from the "name" column. 
+   contact_info[['first_name', 'last_name']] = contact_info['name'].str.split(' ', n=1, expand=True)
+
+   # Drop the contact_name column
+   contacts_df_clean = contact_info.drop('name', axis=1)
+   contacts_df_clean.head()
+   ```
+   
+   ![image](https://user-images.githubusercontent.com/115905663/228086280-f9ca9ea5-4900-42f5-825c-5275ef4f8f33.png)
+
+
    * Clean and export the DataFrame as `contacts.csv` and save it to your GitHub repository
+   ```ruby
+   # Reorder the columns
+   contacts_df_clean = contacts_df_clean[['contact_id', 'first_name', 'last_name', 'email']]
+   contacts_df_clean.head(10)
+   ```
+   
+   ![image](https://user-images.githubusercontent.com/115905663/228086429-ceab3315-dd70-4136-9176-64e084a47bfb.png)
+   
+   ```ruby
+   # Check the datatypes one more time before exporting as CSV file.
+   contacts_df_clean.info()
+   ```
+   
+   ![image](https://user-images.githubusercontent.com/115905663/228086572-850d6243-efaf-4ada-b041-15c9c0e702fb.png)
+   
+   ```ruby
+   # Export the DataFrame as a CSV file. 
+   contacts_df_clean.to_csv("Resources/contacts.csv", encoding='utf8', index=False)
+   ```
    
 3. If you chose Option 2, complete the following steps:
    * Import the `contacts.xlsx` file into a DataFrame
