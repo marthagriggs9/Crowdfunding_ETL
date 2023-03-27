@@ -12,14 +12,122 @@ You will work with a partner to practice building an ETL pipeline using Python, 
 
 ## Create the Category and Subcategory DataFrames
 1. Extract and transform the `crowdfunding.xlsx` Excel data to create a category DataFrame that has the following columns:
+```ruby
+# Import dependencies
+import pandas as pd
+import numpy as np
+pd.set_option('max_colwidth', 400)
+```
+```ruby
+# Read the data into a Pandas DataFrame
+crowdfunding_info_df = pd.read_excel('Resources/crowdfunding.xlsx', engine= "openpyxl" )
+crowdfunding_info_df.head()
+```
+
+![Screenshot 2023-03-27 173214](https://user-images.githubusercontent.com/115905663/228081738-f5317d3e-f8c9-4690-b202-0781bd71378c.png)
+
+```ruby
+# Get a brief summary of the crowdfunding_info DataFrame.
+crowdfunding_info_df.info()
+```
+
+![image](https://user-images.githubusercontent.com/115905663/228081890-4d3be88f-4e4d-4480-bbe4-2f5ca5a70bbe.png)
+
+```ruby
+# Get the crowdfunding_info_df columns.
+crowdfunding_info_df.columns
+```
+
+![image](https://user-images.githubusercontent.com/115905663/228081995-bc0c2b15-c182-4815-86ec-d881d94201d6.png)
+
+```ruby
+# Assign the category and subcategory values to category and subcategory columns.
+crowdfunding_info_df[['category', 'subcategory']] = crowdfunding_info_df['category & sub-category'].str.split('/', n=1, expand=True)
+crowdfunding_info_df
+```
+
+![image](https://user-images.githubusercontent.com/115905663/228082116-fecb44b0-0332-4f76-a6cb-ba77975c5f91.png)
+
    * A category_id column that has entries going sequentially from 'cat1' to 'catn', where n is the number of unique categories
+   ```ruby
+   # Get the unique categories and subcategories in separate lists.
+   categories = crowdfunding_info_df['category'].unique()
+   print(categories)
+   ```
+   ```ruby
+   # Get the number of distinct values in the categories and subcategories lists.
+   print(len(categories))
+   ```
+   ```ruby
+   # Create numpy arrays from 1-9 for the categories and 1-24 for the subcategories.
+   category_ids = np.arange(1, 10)
+   print(category_ids)
+   ```
+   ```ruby
+   # Use a list comprehension to add "cat" to each category_id. 
+   cat_ids = ['cat' +str(id) for id in category_ids]
+   print(cat_ids)
+   ```
    * A category column that contains only the category titles
-2. Export the category DataFrame as `category.csv` and save it to your GitHub repository. 
-3. Extract and transform the `crowdfunding.xlsx` Excel data to create a subcategory DataFrame that has the following columns:
-   * A subcategory_id column that has entries going sequentially from 'subcat1' to 'subcatn', where n is the number of unique categories
-   * A subcategory column that contains only the subcategory titles
+   ```ruby
+   # Create a category DataFrame with the category_id array as the category_id and categories list as the category name.
+   category_data = {'category_id': cat_ids, 'category': categories}
+   ```
    
+
+2. Export the category DataFrame as `category.csv` and save it to your GitHub repository. 
+```ruby
+category_df = pd.DataFrame(category_data)
+category_df
+```
+![Screenshot 2023-03-27 172841](https://user-images.githubusercontent.com/115905663/228081195-9000b07f-fd52-4653-a02d-e73abc8b6693.png)
+
+```ruby
+# Export categories_df and subcategories_df as CSV files.
+category_df.to_csv("Resources/category.csv", index=False)
+```
+
+3. Extract and transform the `crowdfunding.xlsx` Excel data to create a subcategory DataFrame that has the following columns:
+  
+  * A subcategory_id column that has entries going sequentially from 'subcat1' to 'subcatn', where n is the number of unique categories
+  ```ruby
+  # Get the unique categories and subcategories in separate lists.
+  subcategories = crowdfunding_info_df['subcategory'].unique()
+  print(subcategories)
+  ```
+  ```ruby
+  # Get the number of distinct values in the categories and subcategories lists.
+  print(len(subcategories))
+  ```
+  ```ruby
+  # Create numpy arrays from 1-9 for the categories and 1-24 for the subcategories.
+  subcategory_ids = np.arange(1, 25)
+  print(subcategory_ids)
+  ```
+  ```ruby
+  # Use a list comprehension to add "subcat" to each subcategory_id.    
+  scat_ids = ['subcat' +str(id) for id in subcategory_ids]
+  print(scat_ids)
+  ```
+  
+  * A subcategory column that contains only the subcategory titles
+   ```ruby
+   # Create a category DataFrame with the subcategory_id array as the subcategory_id and subcategories list as the subcategory name. 
+   subcategory_data = {'subcategory_id': scat_ids, 'subcategory': subcategories}
+   
+   ```
 4. Export the category DataFrame as `subcategory.csv` and save it to your GitHub repository. 
+```ruby
+subcategory_df = pd.DataFrame(subcategory_data)
+subcategory_df
+```
+
+![image](https://user-images.githubusercontent.com/115905663/228083236-870723f5-73ec-4e13-b55e-0781758561a6.png)
+
+```ruby
+# Export categories_df and subcategories_df as CSV files.
+subcategory_df.to_csv("Resources/subcategory.csv", index=False)
+```
 
 ## Create the Campaign DataFrame
 1. Extract and transform the `crowdfunding.xlsx` Excel data to create a campaign DataFrame that has the following columns:
