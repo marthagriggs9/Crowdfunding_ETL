@@ -332,13 +332,100 @@ campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
 ## Create Crowdfunding Database
 
 1. Inspect the four CSV files and then sketch an ERD of the tables
+![crowdfunding_ERD](https://user-images.githubusercontent.com/115905663/228113551-fd540c0e-7565-4578-956d-c6a603c68eca.png)
+
 2. Use the information from the ERD to create a table schema for each CSV file
+
 3. Save the database schema as a Postgres file named `crowdfunding_db_schema.sql` and save it to your GitHub repository
+[crowdfunding_db_schema.sql](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/crowdfunding_db_schema.sql)
 4. Create a new Postgres database, named `crowdfunding_db`
+
 5. Using the database schema, create the tables in the correct order to handle the foreign keys
+
 6. Verify the table creation by running a `SELECT` statement for each table
+```ruby
+--DROP tables if they exist
+DROP TABLE campaign;
+DROP TABLE contacts;
+DROP TABLE category;
+DROP TABLE subcategory;
+
+-- creating tables from data
+--creating contacts table
+CREATE TABLE contacts(
+		contact_id INT NOT NULL,
+		first_name VARCHAR NOT NULL, 
+		last_name VARCHAR NOT NULL,
+	    email VARCHAR NOT NULL,
+		PRIMARY KEY (contact_id)
+);
+
+
+--view contacts table
+SELECT *
+FROM contacts;
+
+
+--creating category table
+CREATE TABLE category(
+		category_id VARCHAR NOT NULL,
+		category VARCHAR NOT NULL, 
+		PRIMARY KEY (category_id)
+);
+-- view category table
+SELECT *
+FROM category; 
+
+--creating subcategory table
+CREATE TABLE subcategory(
+		subcategory_id VARCHAR NOT NULL, 
+		subcategory VARCHAR NOT NULL, 
+		PRIMARY KEY (subcategory_id)
+);
+
+--view subcategory table
+SELECT * 
+FROM subcategory 
+
+--create campaign table
+CREATE TABLE campaign(
+		cf_id INT NOT NULL, 
+		contact_id INT NOT NULL, 
+		company_name VARCHAR NOT NULL,
+		description VARCHAR NOT NULL, 
+		goal FLOAT NOT NULL, 
+		pledged FLOAT NOT NULL, 
+		outcome VARCHAR NOT NULL, 
+		backers_count INT NOT NULL, 
+		country VARCHAR NOT NULL, 
+		currency VARCHAR NOT NULL, 
+		launch_date DATE NOT NULL, 
+		end_date DATE NOT NULL, 
+		category_id VARCHAR NOT NULL, 
+		subcategory_id VARCHAR NOT NULL, 
+		FOREIGN KEY (contact_id) REFERENCES contacts (contact_id), 
+		FOREIGN KEY (category_id) REFERENCES category (category_id), 
+		FOREIGN KEY (subcategory_id) REFERENCES subcategory (subcategory_id),
+		PRIMARY KEY (cf_id)
+);
+
+SELECT * 
+FROM campaign
+```
 7. Import each CSV file into its corresponding SQL table
+
 8. Verify that each table has the correct data by running a `SELECT` statement for each
+9. 
+![Screenshot 2023-03-25 142724](https://user-images.githubusercontent.com/115905663/228114466-911a47ae-9ceb-4031-afa2-f9891c83749d.png)
+
+![Screenshot 2023-03-25 143107](https://user-images.githubusercontent.com/115905663/228114490-8769300d-3451-4b18-8b32-df8aebd5b24b.png)
+
+![Screenshot 2023-03-25 142926](https://user-images.githubusercontent.com/115905663/228114520-1cc25ba8-3efb-410e-8a32-a68a393d3d92.png)
+
+![Screenshot 2023-03-25 144610](https://user-images.githubusercontent.com/115905663/228114610-77e3d5fb-a2a2-43d4-a847-84ae58ad9015.png)
+
+
+
    
    
    
