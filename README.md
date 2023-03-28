@@ -8,6 +8,8 @@ Rachel Novak
 
 Martha Griggs
 
+Our project submission: [ETL_Mini_Project.ipynb](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/ETL_Mini_Project_MGriggs_RNovak.ipynb)
+
 You will work with a partner to practice building an ETL pipeline using Python, Pandas and either Python dictionary methods or regular expressions to extract and transform the data. After you transform the data, you'll create four CSV files and use the CSV file data to create an ERD and a table schema. Finally, you'll upload the CSV file data into a Postgres database. 
 
 ## Create the Category and Subcategory DataFrames
@@ -86,6 +88,7 @@ category_df
 # Export categories_df and subcategories_df as CSV files.
 category_df.to_csv("Resources/category.csv", index=False)
 ```
+[category.csv](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/Resources/category.csv)
 
 3. Extract and transform the `crowdfunding.xlsx` Excel data to create a subcategory DataFrame that has the following columns:
   
@@ -128,6 +131,7 @@ subcategory_df
 # Export categories_df and subcategories_df as CSV files.
 subcategory_df.to_csv("Resources/subcategory.csv", index=False)
 ```
+[subcategory.csv](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/Resources/subcategory.csv)
 
 ## Create the Campaign DataFrame
 1. Extract and transform the `crowdfunding.xlsx` Excel data to create a campaign DataFrame that has the following columns:
@@ -227,6 +231,8 @@ campaign_cleaned.head()
 campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
 ```
 
+[campaign.csv](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/Resources/campaign.csv)
+
 ## Create the Contacts DataFrame
 1. Choose one of the following two options for extracting and transforming the data from `contacts.xlsx` Excel data:
    * Option 1: Use Python dictionary methods
@@ -320,6 +326,8 @@ campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
    # Export the DataFrame as a CSV file. 
    contacts_df_clean.to_csv("Resources/contacts.csv", encoding='utf8', index=False)
    ```
+  
+  [contacts.csv](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/Resources/contacts.csv)
    
 3. If you chose Option 2, complete the following steps:
    * Import the `contacts.xlsx` file into a DataFrame
@@ -332,12 +340,17 @@ campaign_cleaned.to_csv("Resources/campaign.csv", index=False)
 ## Create Crowdfunding Database
 
 1. Inspect the four CSV files and then sketch an ERD of the tables
+
 ![crowdfunding_ERD](https://user-images.githubusercontent.com/115905663/228113551-fd540c0e-7565-4578-956d-c6a603c68eca.png)
+
+[crowdfunding_ERD.png](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/crowdfunding_ERD.png)
 
 2. Use the information from the ERD to create a table schema for each CSV file
 
 3. Save the database schema as a Postgres file named `crowdfunding_db_schema.sql` and save it to your GitHub repository
+
 [crowdfunding_db_schema.sql](https://github.com/marthagriggs9/Crowdfunding_ETL/blob/main/crowdfunding_db_schema.sql)
+
 4. Create a new Postgres database, named `crowdfunding_db`
 
 5. Using the database schema, create the tables in the correct order to handle the foreign keys
@@ -414,8 +427,8 @@ FROM campaign
 ```
 7. Import each CSV file into its corresponding SQL table
 
-8. Verify that each table has the correct data by running a `SELECT` statement for each
-9. 
+8. Verify that each table has the correct data by running a `SELECT` statement for each 
+
 ![Screenshot 2023-03-25 142724](https://user-images.githubusercontent.com/115905663/228114466-911a47ae-9ceb-4031-afa2-f9891c83749d.png)
 
 ![Screenshot 2023-03-25 143107](https://user-images.githubusercontent.com/115905663/228114490-8769300d-3451-4b18-8b32-df8aebd5b24b.png)
